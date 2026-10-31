@@ -7,6 +7,13 @@ project(
 
 add_executable(App main.cpp)
 
+add_subdirectory(webgpu)
+target_link_libraries(App PRIVATE webgpu)
+
+# Make sure webgpu so/dll/dylib file is copied next to your executable
+# to ease development and distribution:
+target_copy_webgpu_binaries(App)
+
 # recommended extras
 set_target_properties(App PROPERTIES
     CXX_STANDARD 17
@@ -19,4 +26,10 @@ if (MSVC)
     target_compile_options(App PRIVATE /W4)
 else()
     target_compile_options(App PRIVATE -Wall -Wextra -pedantic)
+endif()
+
+# Options that are specific to Emscripten
+if (EMSCRIPTEN)
+    # Generate a full web page rather than a simple WebAssembly module
+    set_target_properties(App PROPERTIES SUFFIX ".html")
 endif()

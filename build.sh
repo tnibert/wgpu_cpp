@@ -1,3 +1,3 @@
 #! /bin/bash
-cmake . -B build
+cmake . -B build -DWEBGPU_BACKEND=WGPU -DWEBGPU_BUILD_FROM_SOURCE=OFF -DWEBGPU_LINK_TYPE=STATIC
 cmake --build build
